@@ -46,7 +46,7 @@ def generate(path:str):
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();"""
 
-    print(template.render(
+    return template.render(
         stylesheets=stylesheets,
         inline_styles= inline_styles,
         page_title=title,
@@ -54,4 +54,3 @@ def generate(path:str):
         gallery_owner = gallery_owner,
         page_js = page_js
         )
-    )
