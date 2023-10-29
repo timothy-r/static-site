@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en-GB">
+<head>
+
+    {% for item in stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ item.href }}"/>
+    {% endfor %}
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <title>{{ page_title }}</title>
+
+    <!-- inline styling  -->
+    <style type="text/css">
+    {{ inline_styles }}
+    </style>
+
+</head>
+
+<body class="gallery">
+
+<div id="gallery">
+    <div class="header"></div>
+        <div class="content">
+            <div class="breadcrumb">
+                <div class="block-core-BreadCrumb">
+                    <span class="BreadCrumb-1">{{ page_title }}</span>
+                </div>
+            </div>
+
+            <h2>{{ page_title }}</h2>
+
+            <!-- navigation block to sub-folder, repeat for each sub-folder -->
+            {% for album in albums %}
+            <div class="gallery-albums">
+                <div class="gallery-album">
+                <div class="gallery-thumb">
+                    <a href="{{ album.href}}">
+                    <img src="{{ album.img_src }}" width="{{ album.img_width }}" height="{{ album.img_height }}" alt="{{ album.img_alt}}"/>
+                    </a>
+                </div>
+                <h4><a href="{{ album.href}}">{{ album.title }}</a></h4>
+                <div class="meta">{{ album.contents }}</div>
+                <p>{{ album.sub_title }}</p>
+            </div>
+            {% endfor %}
+            <!-- end nav block -->
+
+            <div class="clear"></div>
+        </div>
+
+        <hr />
+        <p>Gallery of work of <a href="{{ gallery_owner.email }}">{{ gallery_owner.name }}</a></p>
+
+        <div class="footer"></div>
+    </div>
+</div>
+
+<!-- arbitrary js added to each page -->
+<script type="text/javascript">
+{{ page_js }}
+</script>
+
+</body>
+</html>
