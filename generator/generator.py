@@ -8,16 +8,20 @@ def generate(path:str):
 
     template = env.get_template("index.html")
 
+    # common
     stylesheets = [
         {'href':'modules/icons/iconpacks/silk/icons.css'},
         {'href':'themes/noodle/theme.css'}
     ]
 
+    # common
     inline_styles = """.content { width: 700px; }
     .gallery-thumb { width: 130px; height: 130px; }"""
 
+    # page specific
     title='Kayu-FX'
 
+    # page specific
     albums = [
         {
             'href': 'v/FX+artist+showreel/index.html',
@@ -32,11 +36,13 @@ def generate(path:str):
 
     ]
 
+    # common
     gallery_owner = {
         'email': 'mailto:flo.richer@googlemail.com',
         'name': 'Florence Richer'
     }
 
+    # common
     page_js = """var _gaq = _gaq || [];
         _gaq.push(['_setAccount', 'UA-27528169-1']);
         _gaq.push(['_trackPageview']);
