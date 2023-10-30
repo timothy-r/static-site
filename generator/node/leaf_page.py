@@ -2,5 +2,5 @@ from generator.node.page import Page
 
 class LeafPage(Page):
 
-    def __init__(self) -> None:
-        pass
+    def add_child(self, child:"Page") -> None:
+        raise TypeError("Cannot add a child to a LeafPage")

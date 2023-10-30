@@ -59,4 +59,4 @@ def generate(path:str):
         albums=albums,
         gallery_owner = gallery_owner,
         page_js = page_js
-        )
+    )
