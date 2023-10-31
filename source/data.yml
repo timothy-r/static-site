@@ -1,9 +1,9 @@
 index:
     title: "My site"
-owner:
-    name: "My site owner"
-    email: "My email"
 common:
+    owner:
+        name: "My site owner"
+        email: "My email"
     css:
         inline: css/inline_styles.css
     js:

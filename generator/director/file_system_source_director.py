@@ -9,7 +9,11 @@ class FileSystemSourceDirector(Director):
     """
 
     def __init__(self, reader:DataReader) -> None:
+        """
+            initialise instance variables
+        """
         self._data_reader = reader
+        self._common_data = {}
 
     def make(self, path:str) -> Page:
         """
@@ -18,6 +22,8 @@ class FileSystemSourceDirector(Director):
             yet they also need the actual fs path
             so that the site pages can be generated with contents
         """
+        self._read_common_data(full_path=path)
+
         self._read_sub_directory(full_path=path, dir_name='/')
 
         # # walk through child dirs of path, recursively
@@ -52,6 +58,12 @@ class FileSystemSourceDirector(Director):
         }
         self._builder.add_index_page(path='/', data=node_data)
 
+    def _read_common_data(self, full_path:str) -> None:
+        """
+            from the root directory read all the data common to all pages
+            including paths to css & js files
+        """
+
     def _read_sub_directory(self, full_path:str, dir_name:str) -> str:
         """
             read a directory into a node
@@ -63,6 +75,7 @@ class FileSystemSourceDirector(Director):
 
         data = self._data_reader.read(yml_file)
 
+        # merge common data into the node data
         node_data = data['index']
         node_data['local_path'] = full_path
 
@@ -70,6 +83,10 @@ class FileSystemSourceDirector(Director):
         #     'title': data['index']['title'],
         #     'local_path': full_path
         # }
+
+        """
+            add a node for this directory
+        """
         self._builder.add_index_page(path=dir_name, data=node_data)
 
         # for each child dir add a child node
