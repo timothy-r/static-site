@@ -7,7 +7,11 @@ class Director:
     """
         base class for directors
     """
-    def __init__(self, builder:Builder) -> None:
+
+    def set_builder(self, builder:Builder) -> None:
+        """
+            sets or resets the builder instance
+        """
         self._builder = builder
 
     @abc.abstractmethod

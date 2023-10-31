@@ -37,7 +37,7 @@ def generate(path:str):
     ]
 
     # common
-    gallery_owner = {
+    owner = {
         'email': 'mailto:flo.richer@googlemail.com',
         'name': 'Florence Richer'
     }
@@ -57,6 +57,6 @@ def generate(path:str):
         inline_styles= inline_styles,
         page_title=title,
         albums=albums,
-        gallery_owner = gallery_owner,
+        owner = owner,
         page_js = page_js
     )
