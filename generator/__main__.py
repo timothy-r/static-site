@@ -3,4 +3,7 @@
 """
 
 def main():
+    """
+        run the module
+    """
     pass
