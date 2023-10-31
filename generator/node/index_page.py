@@ -13,9 +13,6 @@ class IndexPage(Page):
     def get_sub_heading(self) -> str:
         return ''
 
-    # def get_thumbnail_path(self) -> str:
-    #     return ''
-
     def add_child(self, child: Page) -> None:
         """
             adds a child page, sets the child's parent page

@@ -59,3 +59,15 @@ css
 js
     * javascript_1.js
 
+
+# Classes
+    * Director - interface for classes to direct building a tree of page nodes
+        * Director has logic to read from a source (fs, s3 bucket, json file, yaml file etc)
+        * FileSystemSourceDirector - reads from a source directory
+        * S3SourceDirector -
+    * Builder - interface for classes to build page nodes
+        * keeps state with current node, allows current node to be set
+
+    * Generator - interface for classes to generate a set of html pages & assets from a tree of page nodes
+        * FileSystemTargetGenerator - writes to a target directory
+
