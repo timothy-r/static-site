@@ -24,14 +24,14 @@ class TemplateBuilderTest(unittest.TestCase):
         root = builder.get_result()
         self.assertIsInstance(root, IndexPage)
 
-        self.assertEquals(len(root.get_children()), 1)
+        self.assertEqual(len(root.get_children()), 1)
         children = root.get_children()
 
         child = children[0]
 
         self.assertIsInstance(child, IndexPage)
         grand_children = child.get_children()
-        self.assertEquals(len(grand_children), 2)
+        self.assertEqual(len(grand_children), 2)
 
     def test_reset_clears_builder_state(self) -> None:
         builder = TemplateBuilder()

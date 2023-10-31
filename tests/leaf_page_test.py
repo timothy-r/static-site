@@ -9,7 +9,7 @@ class LeftPageTest(unittest.TestCase):
         path = 'funky_photo.png'
         page = LeafPage(title='Funky Photo', path=path)
 
-        self.assertEquals(path, page.get_path())
+        self.assertEqual(path, page.get_path())
 
     def test_get_path_with_parent(self) -> None:
         root_page = IndexPage(title='Home Page', path='/')
@@ -20,7 +20,7 @@ class LeftPageTest(unittest.TestCase):
         page = LeafPage(title='Funky Photo', path=path)
         dir_page.add_child(page)
 
-        self.assertEquals('/one/' + path, page.get_path())
+        self.assertEqual('/one/' + path, page.get_path())
 
     def test_get_sibling_pages(self) -> None:
         root_page = IndexPage(title='Home Page', path='/')
@@ -31,10 +31,10 @@ class LeftPageTest(unittest.TestCase):
         page_2 = LeafPage(title='Funky Photo 2', path='funky_photo_two.png')
         root_page.add_child(page_2)
 
-        self.assertEquals(None, page_1.get_prev())
-        self.assertEquals(page_2, page_1.get_next())
-        self.assertEquals(page_1, page_2.get_prev())
-        self.assertEquals(None, page_2.get_next())
+        self.assertEqual(None, page_1.get_prev())
+        self.assertEqual(page_2, page_1.get_next())
+        self.assertEqual(page_1, page_2.get_prev())
+        self.assertEqual(None, page_2.get_next())
 
     def test_cannot_add_child_to_leaf(self) -> None:
         page = LeafPage(title='Funky Photo', path="path")
@@ -44,5 +44,5 @@ class LeftPageTest(unittest.TestCase):
         except TypeError:
             self.assertTrue(True)
 
-        self.assertEquals(None, page.get_children())
-        self.assertEquals(None, page_2.get_parent())
+        self.assertEqual(None, page.get_children())
+        self.assertEqual(None, page_2.get_parent())
