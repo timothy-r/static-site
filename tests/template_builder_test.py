@@ -17,8 +17,10 @@ class TemplateBuilderTest(unittest.TestCase):
         builder = TemplateBuilder()
         builder.add_index_page('/', {'title': 'Home page'})
         builder.add_index_page('child/', {'title': 'Child'})
+        current_path = builder.get_current_directory()
+
         builder.add_index_page('grand_child_a/', {'title': 'Grand Child A'})
-        builder.set_current_directory('/child/')
+        builder.set_current_directory(current_path)
         builder.add_index_page('grand_child_b/', {'title': 'Grand Child B'})
 
         root = builder.get_result()

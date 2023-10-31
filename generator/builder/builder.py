@@ -33,6 +33,13 @@ class Builder:
         pass
 
     @abc.abstractmethod
+    def get_current_directory(self) -> str:
+        """
+            return the path of the current node
+        """
+        pass
+
+    @abc.abstractmethod
     def set_current_directory(self, full_path:str) -> bool:
         pass
 

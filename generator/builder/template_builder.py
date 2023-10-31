@@ -31,8 +31,20 @@ class TemplateBuilder(Builder):
         return self._get_root_node()
 
     def reset(self) -> None:
+        """
+            clear current state
+            ready to read a new node tree
+        """
         self._current_node = None
         self._node_index = {}
+
+    def get_current_directory(self) -> str:
+        """
+            return the path of the current node
+        """
+        if self._current_node:
+            return self._current_node.get_path()
+        return ''
 
     def set_current_directory(self, full_path: str) -> bool:
         """
