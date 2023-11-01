@@ -10,7 +10,7 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
     def setUp(self) -> None:
         super().setUp()
         self._mfs = mockfs.replace_builtins()
-        self._root_path = '/Users/test/source/'
+        self._root_path = '/opt/test/source/'
         self._mfs.add_entries({self._root_path : ''})
 
         builder = TemplateBuilder()
@@ -54,7 +54,7 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
             self.assertEqual(1, len(grand_children))
             self.assertIsInstance(grand_children[0], Page)
 
-    def test_create_leaf_page(self) -> None:
+    def test_create_leaf_pages(self) -> None:
         self._add_mock_root_directory()
         # create sub dirs with data files
         self._add_mock_directory('folder_one')
@@ -70,6 +70,20 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
         for grand_child in grand_children:
             self.assertIsInstance(grand_child, Page)
 
+    def test_create_leaf_page_and_sub_dir(self) -> None:
+        self._add_mock_root_directory()
+        # create sub dirs with data files
+        self._add_mock_directory('folder_one')
+        self._add_mock_file('folder_one/funky.png')
+        self._add_mock_directory('folder_one/sub_dir_x')
+
+        root_page = self._director.make(path=self._root_path)
+        children = root_page.get_children()
+        self.assertEqual(1, len(children))
+        grand_children = children[0].get_children()
+        self.assertEqual(2, len(grand_children))
+        for grand_child in grand_children:
+            self.assertIsInstance(grand_child, Page)
 
     def _add_mock_file(self, path:str) -> None:
         full_path = self._root_path + path
