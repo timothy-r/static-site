@@ -13,6 +13,12 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
         self._root_path = '/Users/test/source/'
         self._mfs.add_entries({self._root_path : ''})
 
+        builder = TemplateBuilder()
+        reader = YamlDataReader()
+        self._director = FileSystemSourceDirector(reader=reader)
+
+        self._director.set_builder(builder=builder)
+
     def tearDown(self) -> None:
         super().tearDown()
         mockfs.restore_builtins()
@@ -21,33 +27,42 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
         """
             test creating an index page with basic data and no children
         """
-        # sub_dir = 'folder_one/'
-        # add the data.yml file contents
-        root_data_path = self._root_path + 'data.yml'
-        root_data = self._get_mock_data_file_contents()
-        self._mfs.add_entries({
-            # self._root_path + sub_dir : '',
-            root_data_path: root_data
-            })
+        self._add_mock_root_directory()
 
-        builder = TemplateBuilder()
-        reader = YamlDataReader()
-        director = FileSystemSourceDirector(reader=reader)
-
-        director.set_builder(builder=builder)
-
-        # dir = os.getcwd()
-        # path = dir + '/source/'
-        root_page = director.make(path=self._root_path)
+        root_page = self._director.make(path=self._root_path)
 
         self.assertIsInstance(root_page, Page)
         children = root_page.get_children()
         self.assertEqual(0, len(children))
 
-        # child_page = children[0]
-        # self.assertIsInstance(child_page, Page)
+    def test_create_sub_dirs(self) -> None:
+        self._add_mock_root_directory()
+        # create sub dirs with data files
+        self._add_mock_directory('folder_one')
+        self._add_mock_directory('folder_two')
+        root_page = self._director.make(path=self._root_path)
 
-    def _get_mock_data_file_contents(self) -> str:
+        self.assertIsInstance(root_page, Page)
+        children = root_page.get_children()
+        self.assertEqual(2, len(children))
+
+
+    def _add_mock_directory(self, path:str) -> None:
+        data_path = self._root_path + path + '/data.yml'
+        data = self._get_test_data_file_contents()
+        self._mfs.add_entries({
+            data_path: data
+        })
+
+    def _add_mock_root_directory(self) -> None:
+        # add the data.yml file contents
+        root_data_path = self._root_path + 'data.yml'
+        root_data = self._get_test_root_data_file_contents()
+        self._mfs.add_entries({
+            root_data_path: root_data
+            })
+
+    def _get_test_root_data_file_contents(self) -> str:
         return """
 index:
     title: "My site"
@@ -59,4 +74,22 @@ common:
         inline: css/inline_styles.css
     js:
         inline: js/inline_scripts.js
+    """
+
+    def _get_test_data_file_contents(self) -> str:
+        return """
+index:
+    title: "Folder One"
+    thumb: "thumb.png"
+    sub_heading: "Folder one is the best folder"
+contents:
+    show_reel:
+      text: ""
+      title: "Show Reel"
+      img: ""
+      video:
+        src: "Showreel_2020_3.mp4"
+        height: 576
+        width: 1024
+
     """
