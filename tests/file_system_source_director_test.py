@@ -42,6 +42,7 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
         self._add_mock_directory('folder_one/sub_dir_one')
         self._add_mock_directory('folder_two')
         self._add_mock_directory('folder_two/sub_dir_two')
+
         root_page = self._director.make(path=self._root_path)
 
         self.assertIsInstance(root_page, Page)
@@ -53,6 +54,26 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
             self.assertEqual(1, len(grand_children))
             self.assertIsInstance(grand_children[0], Page)
 
+    def test_create_leaf_page(self) -> None:
+        self._add_mock_root_directory()
+        # create sub dirs with data files
+        self._add_mock_directory('folder_one')
+        self._add_mock_file('folder_one/funky.png')
+
+        root_page = self._director.make(path=self._root_path)
+        children = root_page.get_children()
+        self.assertEqual(1, len(children))
+        grand_children = children[0].get_children()
+        self.assertEqual(1, len(grand_children))
+        grand_child = grand_children[0]
+        self.assertIsInstance(grand_child, Page)
+
+
+    def _add_mock_file(self, path:str) -> None:
+        full_path = self._root_path + path
+        self._mfs.add_entries({
+            full_path: ''
+        })
 
     def _add_mock_directory(self, path:str) -> None:
         data_path = self._root_path + path + '/data.yml'
@@ -90,13 +111,14 @@ index:
     thumb: "thumb.png"
     sub_heading: "Folder one is the best folder"
 contents:
-    show_reel:
-      text: ""
-      title: "Show Reel"
-      img: ""
-      video:
-        src: "Showreel_2020_3.mp4"
-        height: 576
-        width: 1024
-
-    """
+    funky_foto:
+      type: "img"
+      title: "Funky Foto"
+      src: "funky.png"
+      height: 576
+      width: 1024
+    text_page:
+      type: "txt"
+      title: "Blog Post"
+      src: "blog_post.txt"
+"""

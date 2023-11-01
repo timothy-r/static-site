@@ -11,18 +11,18 @@ class Builder:
         pass
 
     @abc.abstractmethod
-    def add_text_page(self, path:str, data:dict) -> None:
+    def add_text_page(self, path:str, data:dict, full_path:str) -> None:
         """
             adds a page with just text contents (within a html document)
         """
         pass
 
     @abc.abstractmethod
-    def add_image_page(self, path:str, data:dict) -> None:
+    def add_image_page(self, path:str, data:dict, full_path:str) -> None:
         pass
 
     @abc.abstractmethod
-    def add_video_page(self, path:str, data:dict) -> None:
+    def add_video_page(self, path:str, data:dict, full_path:str) -> None:
         pass
 
     @abc.abstractmethod
