@@ -99,4 +99,6 @@ class FileSystemSourceDirector(Director):
             if item['src'] and item['src'] == file_name:
                 type = item['type']
                 if 'img' == type:
-                    self._builder.add_image_page(path='', data=item, full_path=item_path)
+                    self._builder.add_image_page(path=file_name, data=item, full_path=item_path)
+                elif 'txt' == type:
+                    self._builder.add_text_page(path=file_name, data=item, full_path=item_path)

@@ -59,14 +59,15 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
         # create sub dirs with data files
         self._add_mock_directory('folder_one')
         self._add_mock_file('folder_one/funky.png')
+        self._add_mock_file('folder_one/blog_post.txt')
 
         root_page = self._director.make(path=self._root_path)
         children = root_page.get_children()
         self.assertEqual(1, len(children))
         grand_children = children[0].get_children()
-        self.assertEqual(1, len(grand_children))
-        grand_child = grand_children[0]
-        self.assertIsInstance(grand_child, Page)
+        self.assertEqual(2, len(grand_children))
+        for grand_child in grand_children:
+            self.assertIsInstance(grand_child, Page)
 
 
     def _add_mock_file(self, path:str) -> None:
@@ -117,7 +118,7 @@ contents:
       src: "funky.png"
       height: 576
       width: 1024
-    text_page:
+    blog_post:
       type: "txt"
       title: "Blog Post"
       src: "blog_post.txt"
