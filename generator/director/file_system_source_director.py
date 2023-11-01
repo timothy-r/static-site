@@ -26,23 +26,6 @@ class FileSystemSourceDirector(Director):
 
         self._read_sub_directory(full_path=path, dir_name='/')
 
-        # # walk through child dirs of path, recursively
-        # for item in os.listdir(path):
-        #     item_path = os.path.join(path, item)
-        #     if os.path.isdir(item_path):
-
-        #         print("Dir: {}".format(item_path))
-
-        #         self._read_sub_directory(full_path=item_path, dir_name=item)
-        #         # reset builder dir to this dir
-        #         self._builder.set_current_directory('/')
-
-        #     elif os.path.isfile(item_path):
-
-        #         print("File: {}".format(item_path))
-
-        # add each node to the root node
-
         # return the result
         return self._builder.get_result()
 
@@ -79,11 +62,6 @@ class FileSystemSourceDirector(Director):
         node_data = data['index']
         node_data['local_path'] = full_path
 
-        # node_data = {
-        #     'title': data['index']['title'],
-        #     'local_path': full_path
-        # }
-
         """
             add a node for this directory
         """
@@ -94,7 +72,6 @@ class FileSystemSourceDirector(Director):
             item_path = os.path.join(full_path, item)
             if os.path.isdir(item_path):
 
-                print("Dir: {}".format(item_path))
                 current_path = self._builder.get_current_directory()
                 dir_name = item + '/'
                 self._read_sub_directory(full_path=item_path, dir_name=dir_name)
@@ -104,4 +81,4 @@ class FileSystemSourceDirector(Director):
             elif os.path.isfile(item_path):
                 # look for this item_path in the yaml data
                 # if it's present then add a leaf node
-                print("File: {}".format(item_path))
+                pass

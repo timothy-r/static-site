@@ -39,12 +39,19 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
         self._add_mock_root_directory()
         # create sub dirs with data files
         self._add_mock_directory('folder_one')
+        self._add_mock_directory('folder_one/sub_dir_one')
         self._add_mock_directory('folder_two')
+        self._add_mock_directory('folder_two/sub_dir_two')
         root_page = self._director.make(path=self._root_path)
 
         self.assertIsInstance(root_page, Page)
         children = root_page.get_children()
         self.assertEqual(2, len(children))
+        for child in children:
+            self.assertIsInstance(child, Page)
+            grand_children = child.get_children()
+            self.assertEqual(1, len(grand_children))
+            self.assertIsInstance(grand_children[0], Page)
 
 
     def _add_mock_directory(self, path:str) -> None:
