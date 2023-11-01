@@ -93,9 +93,7 @@ class FileSystemSourceDirector(Director):
         # extract filename from path
         file_name = os.path.basename(item_path)
 
-        # print(file_name)
         for item in contents_data.values():
-            # print(item)
             if item['src'] and item['src'] == file_name:
                 type = item['type']
                 if 'img' == type:
@@ -104,3 +102,4 @@ class FileSystemSourceDirector(Director):
                     self._builder.add_text_page(path=file_name, data=item, full_path=item_path)
                 elif 'video' == type:
                     self._builder.add_video_page(path=file_name, data=item, full_path=item_path)
+                break
