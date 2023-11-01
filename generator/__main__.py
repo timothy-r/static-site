@@ -1,9 +1,16 @@
 """
     module entry point
 """
+from generator.generator import generate
 
-def main():
+def main(path:str):
     """
-        run the module
+        run the test generator
     """
-    pass
+    page = generate(path=path)
+
+    print(page)
+
+if __name__ == "__main__":
+    p = "../templates"
+    main(p)

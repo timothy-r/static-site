@@ -1,0 +1,13 @@
+index:
+    title: "Folder One"
+    thumb: "thumb.png"
+    sub_heading: "Folder one is the best folder"
+contents:
+    show_reel:
+      text: ""
+      title: "Show Reel"
+      img: ""
+      video:
+        src: "Showreel_2020_3.mp4"
+        height: 576
+        width: 1024
