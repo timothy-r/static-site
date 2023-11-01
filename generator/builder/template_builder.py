@@ -3,6 +3,8 @@ from generator.node.page import Page
 from generator.node.index_page import IndexPage
 from generator.node.image_page import ImagePage
 from generator.node.text_page import TextPage
+from generator.node.video_page import VideoPage
+
 class TemplateBuilder(Builder):
     """
         builds the site as a tree structure of nodes
@@ -31,7 +33,9 @@ class TemplateBuilder(Builder):
             self._current_node.add_child(node)
 
     def add_video_page(self, path: str, data: dict, full_path:str) -> None:
-        pass
+        node = VideoPage(data['title'], path=path)
+        if self._current_node:
+            self._current_node.add_child(node)
 
     def get_result(self) -> Page:
         return self._get_root_node()

@@ -60,12 +60,13 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
         self._add_mock_directory('folder_one')
         self._add_mock_file('folder_one/funky.png')
         self._add_mock_file('folder_one/blog_post.txt')
+        self._add_mock_file('folder_one/cool_video.mp4')
 
         root_page = self._director.make(path=self._root_path)
         children = root_page.get_children()
         self.assertEqual(1, len(children))
         grand_children = children[0].get_children()
-        self.assertEqual(2, len(grand_children))
+        self.assertEqual(3, len(grand_children))
         for grand_child in grand_children:
             self.assertIsInstance(grand_child, Page)
 
@@ -122,4 +123,8 @@ contents:
       type: "txt"
       title: "Blog Post"
       src: "blog_post.txt"
+    cool_vid:
+      type: "video"
+      title: "Cool Video"
+      src: "cool_video.mp4"
 """

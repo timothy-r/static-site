@@ -102,3 +102,5 @@ class FileSystemSourceDirector(Director):
                     self._builder.add_image_page(path=file_name, data=item, full_path=item_path)
                 elif 'txt' == type:
                     self._builder.add_text_page(path=file_name, data=item, full_path=item_path)
+                elif 'video' == type:
+                    self._builder.add_video_page(path=file_name, data=item, full_path=item_path)
