@@ -4,7 +4,9 @@ from generator.node.leaf_page import LeafPage
 from generator.node.index_page import IndexPage
 
 class TemplateBuilder(Builder):
-
+    """
+        builds the site as a tree structure of nodes
+    """
     def __init__(self) -> None:
         super().__init__()
         self.reset()

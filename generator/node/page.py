@@ -44,8 +44,8 @@ class Page:
 
     def get_path(self) -> str:
         """
-            return the path to this page
-            to store the file
+            return the site path to this page
+            all nodes have a path relative to the root node with path /
             to generate links to this page from other pages
         """
         if self._parent:
