@@ -1,7 +1,9 @@
 from generator.builder.builder import Builder
 from generator.node.page import Page
-from generator.node.leaf_page import LeafPage
 from generator.node.index_page import IndexPage
+from generator.node.image_page import ImagePage
+from generator.node.text_page import TextPage
+from generator.node.video_page import VideoPage
 
 class TemplateBuilder(Builder):
     """
@@ -20,14 +22,20 @@ class TemplateBuilder(Builder):
         self._node_index[full_path] = node
         self._current_node = node
 
-    def add_text_page(self, path: str, data: dict) -> None:
-        pass
+    def add_text_page(self, path: str, data: dict, full_path:str) -> None:
+        node = TextPage(data['title'], path=path)
+        if self._current_node:
+            self._current_node.add_child(node)
 
-    def add_image_page(self, path: str, data: dict) -> None:
-        pass
+    def add_image_page(self, path: str, data: dict, full_path:str) -> None:
+        node = ImagePage(data['title'], path=path)
+        if self._current_node:
+            self._current_node.add_child(node)
 
-    def add_video_page(self, path: str, data: dict) -> None:
-        pass
+    def add_video_page(self, path: str, data: dict, full_path:str) -> None:
+        node = VideoPage(data['title'], path=path)
+        if self._current_node:
+            self._current_node.add_child(node)
 
     def get_result(self) -> Page:
         return self._get_root_node()

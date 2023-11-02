@@ -4,10 +4,9 @@ index:
     sub_heading: "Folder one is the best folder"
 contents:
     show_reel:
+      type: "img"
       text: ""
       title: "Show Reel"
-      img: ""
-      video:
-        src: "Showreel_2020_3.mp4"
-        height: 576
-        width: 1024
+      src: "Showreel_2020_3.png"
+      height: 576
+      width: 1024

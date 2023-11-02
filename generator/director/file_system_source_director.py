@@ -29,17 +29,17 @@ class FileSystemSourceDirector(Director):
         # return the result
         return self._builder.get_result()
 
-    def _read_root_directory(self, full_path:str) -> None:
-        """
-            read the root directory node
-            read the common data for all page nodes
-        """
-        data = self._data_reader.read(full_path + "data.yml")
-        node_data = {
-            'title': data['index']['title'],
-            'local_path': full_path
-        }
-        self._builder.add_index_page(path='/', data=node_data)
+    # def _read_root_directory(self, full_path:str) -> None:
+    #     """
+    #         read the root directory node
+    #         read the common data for all page nodes
+    #     """
+    #     data = self._data_reader.read(full_path + "data.yml")
+    #     node_data = {
+    #         'title': data['index']['title'],
+    #         'local_path': full_path
+    #     }
+    #     self._builder.add_index_page(path='/', data=node_data)
 
     def _read_common_data(self, full_path:str) -> None:
         """
@@ -60,6 +60,8 @@ class FileSystemSourceDirector(Director):
 
         # merge common data into the node data
         node_data = data['index']
+        contents_data = data['contents'] if 'contents' in data else {}
+
         node_data['local_path'] = full_path
 
         """
@@ -81,4 +83,23 @@ class FileSystemSourceDirector(Director):
             elif os.path.isfile(item_path):
                 # look for this item_path in the yaml data
                 # if it's present then add a leaf node
-                pass
+                self._read_leaf_page(item_path, contents_data)
+
+    def _read_leaf_page(self, item_path:str, contents_data:dict) -> None:
+        """
+            add a leaf page to the tree,
+            if specified in the data for the directory
+        """
+        # extract filename from path
+        file_name = os.path.basename(item_path)
+
+        for item in contents_data.values():
+            if item['src'] and item['src'] == file_name:
+                type = item['type']
+                if 'img' == type:
+                    self._builder.add_image_page(path=file_name, data=item, full_path=item_path)
+                elif 'txt' == type:
+                    self._builder.add_text_page(path=file_name, data=item, full_path=item_path)
+                elif 'video' == type:
+                    self._builder.add_video_page(path=file_name, data=item, full_path=item_path)
+                break
