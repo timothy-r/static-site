@@ -87,7 +87,7 @@ js
 * child pages
 
 ## files
-* thumb nail img
+* thumbnail image
     * page path
     * source path
 * content file (img, vid, text/md)

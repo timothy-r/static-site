@@ -1,8 +1,10 @@
-import unittest
+# import unittest
 
+from unittest import TestCase, mock
 from generator.node.index_page import IndexPage
+from generator.file.file import File
 
-class IndexPageTest(unittest.TestCase):
+class IndexPageTest(TestCase):
 
     def test_get_path(self) -> None:
         root_page = IndexPage(title='Home Page', path='/')
@@ -47,6 +49,9 @@ class IndexPageTest(unittest.TestCase):
         self.assertEqual(child_page_2.get_prev(), child_page_1)
 
     def test_add_child_does_not_add_duplicates(self) -> None:
+        """
+            test that pages do not allow duplicate children
+        """
         root_page = IndexPage(title='Home Page', path='/')
         child_page_1 = IndexPage(title='Child 1', path='child_1/')
         root_page.add_child(child=child_page_1)
@@ -55,7 +60,25 @@ class IndexPageTest(unittest.TestCase):
         self.assertEqual(1, len(root_page.get_children()))
 
     def test_get_properties(self) -> None:
+        """
+            test getting properties from a page
+        """
         inline_styles = '.content { width: 700px; }'
         root_page = IndexPage(title='Home Page', path='/', properties={'inline_styles': inline_styles})
         result = root_page.get_property('inline_styles')
         self.assertEqual(inline_styles, result)
+
+    def test_get_thumbnail_file(self) -> None:
+        """
+            test adding a mock File thumbnail to a page
+        """
+        thumbnail_mock = mock.Mock()
+        root_page = IndexPage(
+            title='Home',
+            path='/',
+            properties={},
+            files = {'thumbnail': thumbnail_mock}
+        )
+        result = root_page.get_file('thumbnail')
+        self.assertEqual(thumbnail_mock, result)
+        pass

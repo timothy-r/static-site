@@ -46,6 +46,7 @@ class LeftPageTest(unittest.TestCase):
 
         self.assertEqual(None, page.get_children())
         self.assertEqual(None, page_2.get_parent())
+        self.assertEqual(None, page.get_children())
 
     def test_get_properties(self) -> None:
         inline_styles = '.content { width: 700px; }'

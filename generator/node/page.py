@@ -1,10 +1,17 @@
 from abc import abstractmethod
 
+from generator.file.file import File
 class Page:
     """
         base class interface for all nodes / pages
     """
-    def __init__(self, title:str, path:str, properties:dict = {}) -> None:
+    def __init__(
+        self,
+        title:str,
+        path:str,
+        properties:dict = {},
+        files={str:File}
+    ) -> None:
         self._parent = None
         self._next = None
         self._prev = None
@@ -12,6 +19,7 @@ class Page:
         self._title = title
         self._path = path
         self._properties = properties
+        self._files = files
 
     def set_parent(self, parent:"Page") -> None:
         self._parent = parent
@@ -29,7 +37,7 @@ class Page:
 
     @abstractmethod
     def get_contents(self) -> dict:
-        return {}
+        pass
 
     def set_next(self, next:"Page") -> None:
         self._next = next
@@ -57,12 +65,15 @@ class Page:
     def get_title(self) -> str:
         return self._title
 
-    @abstractmethod
-    def get_sub_heading(self) -> str:
-        pass
+    # @abstractmethod
+    # def get_sub_heading(self) -> str:
+    #     pass
 
-    def get_thumbnail_path(self) -> str:
-        pass
+    # def get_thumbnail_path(self) -> str:
+    #     pass
 
     def get_property(self, name:str):
         return self._properties[name] if name in self._properties else None
+
+    def get_file(self, name:str) -> File:
+        return self._files[name] if name in self._files else None
