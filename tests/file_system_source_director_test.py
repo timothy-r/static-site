@@ -85,6 +85,9 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
         for grand_child in grand_children:
             self.assertIsInstance(grand_child, Page)
 
+    def test_create_index_page_adds_properties(self) -> None:
+        pass
+
     def _add_mock_file(self, path:str) -> None:
         full_path = self._root_path + path
         self._mfs.add_entries({
@@ -141,4 +144,6 @@ contents:
       type: "video"
       title: "Cool Video"
       src: "cool_video.mp4"
+      height: 576
+      width: 1024
 """

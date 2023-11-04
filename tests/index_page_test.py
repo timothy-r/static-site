@@ -53,3 +53,9 @@ class IndexPageTest(unittest.TestCase):
         root_page.add_child(child=child_page_1)
 
         self.assertEqual(1, len(root_page.get_children()))
+
+    def test_get_properties(self) -> None:
+        inline_styles = '.content { width: 700px; }'
+        root_page = IndexPage(title='Home Page', path='/', properties={'inline_styles': inline_styles})
+        result = root_page.get_property('inline_styles')
+        self.assertEqual(inline_styles, result)

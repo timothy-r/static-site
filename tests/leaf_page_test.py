@@ -46,3 +46,9 @@ class LeftPageTest(unittest.TestCase):
 
         self.assertEqual(None, page.get_children())
         self.assertEqual(None, page_2.get_parent())
+
+    def test_get_properties(self) -> None:
+        inline_styles = '.content { width: 700px; }'
+        root_page = LeafPage(title='Blog Post Y', path='/', properties={'inline_styles': inline_styles})
+        result = root_page.get_property('inline_styles')
+        self.assertEqual(inline_styles, result)

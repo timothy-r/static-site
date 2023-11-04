@@ -4,13 +4,14 @@ class Page:
     """
         base class interface for all nodes / pages
     """
-    def __init__(self, title:str, path:str) -> None:
+    def __init__(self, title:str, path:str, properties:dict = {}) -> None:
         self._parent = None
         self._next = None
         self._prev = None
 
         self._title = title
         self._path = path
+        self._properties = properties
 
     def set_parent(self, parent:"Page") -> None:
         self._parent = parent
@@ -62,3 +63,6 @@ class Page:
 
     def get_thumbnail_path(self) -> str:
         pass
+
+    def get_property(self, name:str):
+        return self._properties[name] if name in self._properties else None

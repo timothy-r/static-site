@@ -71,3 +71,38 @@ js
     * Generator - interface for classes to generate a set of html pages & assets from a tree of page nodes
         * FileSystemTargetGenerator - writes to a target directory
 
+
+# Required page properties
+
+* title
+* path
+
+## arbitrary properties, used to populate templates
+
+* owner
+* sub_title
+* inline css
+* inline js
+
+* child pages
+
+## files
+* thumb nail img
+    * page path
+    * source path
+* content file (img, vid, text/md)
+    * page path
+    * source path
+* css files
+    * page path
+    * source path
+* js files
+    * page path
+    * source path
+###
+    * file interface
+    * provide the source location
+        * diff impls for local, S3, http etc
+    * calculates page path
+    * provides file name etc
+

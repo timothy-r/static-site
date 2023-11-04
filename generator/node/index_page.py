@@ -6,8 +6,8 @@ class IndexPage(Page):
     """
         Extracts the contents of an index page that are specific to that page
     """
-    def __init__(self, title: str, path: str) -> None:
-        super().__init__(title, path)
+    def __init__(self, title: str, path: str, properties:dict = {}) -> None:
+        super().__init__(title, path, properties=properties)
         self._children = []
 
     def get_sub_heading(self) -> str:
