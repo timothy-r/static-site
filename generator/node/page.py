@@ -27,6 +27,9 @@ class Page:
     def get_parent(self) -> "Page":
         return self._parent
 
+    def is_leaf_page(self) -> bool:
+        return False
+
     @abstractmethod
     def add_child(self, child:"Page") -> None:
         pass

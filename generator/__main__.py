@@ -8,12 +8,14 @@ from dependency_injector.wiring import Provide, inject
 from generator.container import Container
 from generator.director.director import Director
 from generator.builder.builder import Builder
+from generator.render.renderer import Renderer
 from generator.node.page import Page
 
 def main(
     path:str,
     director:Director = Provide[Container.file_system_source_director],
-    builder:Builder = Provide(Container.template_builder)
+    builder:Builder = Provide[Container.template_builder],
+    renderer:Renderer = Provide[Container.renderer]
 ):
     """
         create the node tree from the source directory
@@ -23,12 +25,14 @@ def main(
 
     index_page = builder.get_result()
 
-    debug_page_node(index_page)
+    # debug_page_node(index_page)
 
     """
         generate the static web pages
     """
+    root_page_html = renderer.render(index_page)
 
+    print(root_page_html)
 
 
 def debug_page_node(node:Page) -> None:

@@ -7,3 +7,6 @@ class LeafPage(Page):
 
     def get_children(self) -> list["Page"]:
         return None
+
+    def is_leaf_page(self) -> bool:
+        return True
