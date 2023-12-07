@@ -34,6 +34,7 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
         self.assertIsInstance(root_page, Page)
         children = root_page.get_children()
         self.assertEqual(0, len(children))
+        self.assert_node_common_owner_property(root_page)
 
     def test_create_sub_dirs(self) -> None:
         self._add_mock_root_directory()
@@ -50,6 +51,8 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
         self.assertEqual(2, len(children))
         for child in children:
             self.assertIsInstance(child, Page)
+            self.assert_node_common_owner_property(child)
+
             grand_children = child.get_children()
             self.assertEqual(1, len(grand_children))
             self.assertIsInstance(grand_children[0], Page)
@@ -69,6 +72,7 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
         self.assertEqual(3, len(grand_children))
         for grand_child in grand_children:
             self.assertIsInstance(grand_child, Page)
+            self.assert_node_common_owner_property(grand_child)
 
     def test_create_leaf_page_and_sub_dir(self) -> None:
         self._add_mock_root_directory()
@@ -84,6 +88,9 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
         self.assertEqual(2, len(grand_children))
         for grand_child in grand_children:
             self.assertIsInstance(grand_child, Page)
+
+    def test_create_index_page_adds_properties(self) -> None:
+        pass
 
     def _add_mock_file(self, path:str) -> None:
         full_path = self._root_path + path
@@ -141,4 +148,10 @@ contents:
       type: "video"
       title: "Cool Video"
       src: "cool_video.mp4"
+      height: 576
+      width: 1024
 """
+
+    def assert_node_common_owner_property(self, node:Page) -> None:
+        common = node.get_property('common')
+        self.assertEqual('My site owner', common['owner']['name'])
