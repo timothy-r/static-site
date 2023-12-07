@@ -8,6 +8,7 @@ from dependency_injector.wiring import Provide, inject
 from generator.container import Container
 from generator.director.director import Director
 from generator.builder.builder import Builder
+from generator.node.page import Page
 
 def main(
     path:str,
@@ -22,27 +23,27 @@ def main(
 
     index_page = builder.get_result()
 
-    # debug
-    print(index_page)
-    for child in index_page.get_children():
-        print(child)
-        for grand_child in child.get_children():
-            print(grand_child)
+    debug_page_node(index_page)
 
     """
         generate the static web pages
     """
 
+
+
+def debug_page_node(node:Page) -> None:
+    # debug
+    print(node)
+    for child in node.get_children():
+        print(child)
+        for grand_child in child.get_children():
+            print(grand_child)
+
+
 if __name__ == "__main__":
 
     container = Container()
     container.init_resources()
-
     container.wire(modules=[__name__])
 
     main(*sys.argv[1:])
-
-
-# if __name__ == "__main__":
-#     p = "../templates"
-#     main(p)
