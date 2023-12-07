@@ -43,3 +43,6 @@ class IndexPage(Page):
 
     def get_children(self) -> list["Page"]:
         return self._children
+
+    # def __str__(self) -> str:
+    #     return f"IndexPage(title={self._title}, path={self._path}, properties={self._properties}, children={len(self._children)})"

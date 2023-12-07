@@ -1,18 +1,14 @@
-# static-site
-Generate static web pages from templates
+# Static site
+Generates static web pages from HTML templates and source files. Uses the source directory structure to structure the web page navigation
 
-# Organise source files into the target directory structure
-
-# The structure is simply indexes & leaf pages
-
-* Index pages contain links & thumb nails to child directories
+# The structure is directory index pages, leaf pages and child folders
+* Index pages contain links to their own leaf pages & thumb nails with links to their child directories
 * Leaf pages contain actual content (HTML, images, videos)
 
 # Navigation
-* Bread crumbs are generated automatically to navigate the structure
+* Breadcrumbs are generated automatically to navigate the directory structure
 * Previous & next links generated automatically using alphabetic sorting by source file name
-
-* Provide download links for content?
+* Provide download links for content
 
 
 # Source folder structure
@@ -22,8 +18,7 @@ Generate static web pages from templates
 * used to generate the site index page
 * data.yml
     *  contains site name and site owner data
-* data from sub folders is used to generate the index page contents
-
+* data from sub folders is used to generate the index page contents of sub-directories
 
 
 # Generation logic
@@ -41,13 +36,20 @@ root
 * index.html
     * sub_folder
         * index.html
-        * image.png
-        * thumbx.png
+        * thumb.png <- for the parent index page
+
+        * image_page_1.html
+        * image_1.png
+        * video_page.html
         * video.mp4
     * sub_folder
         * index.html
+        * thumb.png <- for the parent index page
+
             * sub_folder
                 * index.html
+                * thumb.png <- for the parent index page
+
                 * image_1.png
                 * thumb_1.png
                 * page_1.html
@@ -64,7 +66,8 @@ js
     * Director - interface for classes to direct building a tree of page nodes
         * Director has logic to read from a source (fs, s3 bucket, json file, yaml file etc)
         * FileSystemSourceDirector - reads from a source directory
-        * S3SourceDirector -
+        * S3SourceDirector - reads from an S3 bucket
+
     * Builder - interface for classes to build page nodes
         * keeps state with current node, allows current node to be set
 
@@ -77,7 +80,7 @@ js
 * title
 * path
 
-## arbitrary properties, used to populate templates
+## Arbitrary properties, used to populate templates
 
 * owner
 * sub_title
@@ -86,7 +89,7 @@ js
 
 * child pages
 
-## files
+## Files
 * thumbnail image
     * page path
     * source path

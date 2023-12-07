@@ -77,3 +77,6 @@ class Page:
 
     def get_file(self, name:str) -> File:
         return self._files[name] if name in self._files else None
+
+    def __str__(self) -> str:
+        return f"IndexPage(title={self._title}, path={self._path}, properties={self._properties}, children={len(self._children)})"
