@@ -30,7 +30,7 @@ def main(
     """
         generate the static web pages
     """
-    root_page_html = renderer.render(index_page)
+    root_page_html = renderer.render(index_page.get_children()[0])
 
     print(root_page_html)
 

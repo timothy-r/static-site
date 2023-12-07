@@ -10,7 +10,7 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
     def setUp(self) -> None:
         super().setUp()
         self._mfs = mockfs.replace_builtins()
-        self._root_path = '/opt/test/source/'
+        self._root_path = '/opt/test/source'
         self._mfs.add_entries({self._root_path : ''})
 
         builder = TemplateBuilder()
@@ -28,7 +28,6 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
             test creating an index page with basic data and no children
         """
         self._add_mock_root_directory()
-
         root_page = self._director.make(path=self._root_path)
 
         self.assertIsInstance(root_page, Page)
@@ -61,13 +60,14 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
         self._add_mock_root_directory()
         # create sub dirs with data files
         self._add_mock_directory('folder_one')
-        self._add_mock_file('folder_one/funky.png')
-        self._add_mock_file('folder_one/blog_post.txt')
-        self._add_mock_file('folder_one/cool_video.mp4')
+        self._add_mock_file('/folder_one/funky.png')
+        self._add_mock_file('/folder_one/blog_post.txt')
+        self._add_mock_file('/folder_one/cool_video.mp4')
 
         root_page = self._director.make(path=self._root_path)
         children = root_page.get_children()
         self.assertEqual(1, len(children))
+
         grand_children = children[0].get_children()
         self.assertEqual(3, len(grand_children))
         for grand_child in grand_children:
@@ -78,7 +78,7 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
         self._add_mock_root_directory()
         # create sub dirs with data files
         self._add_mock_directory('folder_one')
-        self._add_mock_file('folder_one/funky.png')
+        self._add_mock_file('/folder_one/funky.png')
         self._add_mock_directory('folder_one/sub_dir_x')
 
         root_page = self._director.make(path=self._root_path)
@@ -99,7 +99,7 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
         })
 
     def _add_mock_directory(self, path:str) -> None:
-        data_path = self._root_path + path + '/data.yml'
+        data_path = self._root_path + '/' + path + '/data.yml'
         data = self._get_test_data_file_contents()
         self._mfs.add_entries({
             data_path: data
@@ -107,11 +107,15 @@ class FileSystemSourceDirectorTest(unittest.TestCase):
 
     def _add_mock_root_directory(self) -> None:
         # add the data.yml file contents
-        root_data_path = self._root_path + 'data.yml'
+        root_data_path = self._root_path + '/data.yml'
         root_data = self._get_test_root_data_file_contents()
         self._mfs.add_entries({
             root_data_path: root_data
             })
+
+        self._add_mock_file('/css/inline_styles.css')
+        self._add_mock_file('/js/inline_scripts.js')
+
 
     def _get_test_root_data_file_contents(self) -> str:
         return """
@@ -137,19 +141,22 @@ contents:
     funky_foto:
       type: "img"
       title: "Funky Foto"
-      src: "funky.png"
-      height: 576
-      width: 1024
+      src:
+        file: "funky.png"
+        height: 576
+        width: 1024
     blog_post:
       type: "txt"
       title: "Blog Post"
-      src: "blog_post.txt"
+      src:
+        file: "blog_post.txt"
     cool_vid:
       type: "video"
       title: "Cool Video"
-      src: "cool_video.mp4"
-      height: 576
-      width: 1024
+      src:
+        file: "cool_video.mp4"
+        height: 576
+        width: 1024
 """
 
     def assert_node_common_owner_property(self, node:Page) -> None:

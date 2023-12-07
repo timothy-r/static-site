@@ -8,7 +8,12 @@ contents:
       type: "img"
       text: "The digitalis project"
       title: "Digitalis"
-      src: "digitalis01.jpg"
-      thumb: ""
-      height: 576
-      width: 1024
+      src:
+        file: "digitalis01.jpg"
+        height: 576
+        width: 1024
+      thumb:
+        file: "digitalis01_thumb.jpg"
+        height: 60
+        width: 100
+

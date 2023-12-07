@@ -57,10 +57,20 @@ class FileSystemSourceDirector(Director):
         """
             from the source root directory read all the data common to all pages
             including paths to css & js files
-            ignore inline scripts & styles
         """
         data = self._read_data(full_path=full_path)
-        self._common_data = data['common'] if 'common' in data else {}
+        if 'common' in data:
+            # read inline styles & js file contents into stings
+            if data['common']['css'] and data['common']['css']['inline']:
+                data['common']['inline_css'] = self._read_file(full_path, data['common']['css']['inline'])
+            if data['common']['js'] and data['common']['js']['inline']:
+                data['common']['inline_js'] = self._read_file(full_path, data['common']['js']['inline'])
+
+            self._common_data = data['common']
+
+    def _read_file(self, full_path:str, name:str) -> str:
+        with open(full_path + '/' + name, 'r', encoding="utf-8") as file:
+            return file.read()
 
     def _read_directory(self, full_path:str, dir_name:str) -> str:
         """
@@ -109,7 +119,7 @@ class FileSystemSourceDirector(Director):
         file_name = os.path.basename(item_path)
 
         for page_properties in contents_data.values():
-            if page_properties['src'] and page_properties['src'] == file_name:
+            if page_properties['src'] and page_properties['src']['file'] == file_name:
                 type = page_properties['type']
                 # add the common page properties to each page
                 page_properties['common'] = self._common_data
