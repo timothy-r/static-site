@@ -81,4 +81,3 @@ class IndexPageTest(TestCase):
         )
         result = root_page.get_file('thumbnail')
         self.assertEqual(thumbnail_mock, result)
-        pass

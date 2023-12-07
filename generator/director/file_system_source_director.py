@@ -7,6 +7,7 @@ class FileSystemSourceDirector(Director):
     """
         build a page tree from a local file system source
     """
+    DATA_FILE_NAME = 'data.yml'
 
     def __init__(self, reader:DataReader) -> None:
         """
@@ -24,10 +25,21 @@ class FileSystemSourceDirector(Director):
         """
         self._read_common_data(full_path=path)
 
-        self._read_sub_directory(full_path=path, dir_name='/')
+        self._read_directory(full_path=path, dir_name='/')
 
         # return the result
         return self._builder.get_result()
+
+    def _read_data(self, full_path:str) -> dict:
+        """
+            read the contents of the directory's data file into a dict
+        """
+        yml_file = full_path + "/" + self.DATA_FILE_NAME
+        if not os.path.isfile(yml_file):
+            return {}
+            # raise FileNotFoundError(yml_file)
+
+        return self._data_reader.read(yml_file)
 
     # def _read_root_directory(self, full_path:str) -> None:
     #     """
@@ -43,23 +55,26 @@ class FileSystemSourceDirector(Director):
 
     def _read_common_data(self, full_path:str) -> None:
         """
-            from the root directory read all the data common to all pages
+            from the source root directory read all the data common to all pages
             including paths to css & js files
+            ignore inline scripts & styles
         """
+        data = self._read_data(full_path=full_path)
+        self._common_data = data['common'] if 'common' in data else {}
 
-    def _read_sub_directory(self, full_path:str, dir_name:str) -> str:
+    def _read_directory(self, full_path:str, dir_name:str) -> str:
         """
             read a directory into a node
             full_path is the fs path, use the last dir name for the node 'site path'
         """
-        yml_file = full_path + "/data.yml"
-        if not os.path.isfile(yml_file):
+        data = self._read_data(full_path=full_path)
+        if not 'index' in data:
             return
-
-        data = self._data_reader.read(yml_file)
 
         # merge common data into the node data
         node_data = data['index']
+        node_data['common'] = self._common_data
+
         contents_data = data['contents'] if 'contents' in data else {}
 
         node_data['local_path'] = full_path
@@ -76,7 +91,7 @@ class FileSystemSourceDirector(Director):
 
                 current_path = self._builder.get_current_directory()
                 dir_name = item + '/'
-                self._read_sub_directory(full_path=item_path, dir_name=dir_name)
+                self._read_directory(full_path=item_path, dir_name=dir_name)
                 # reset builder dir to this dir
                 self._builder.set_current_directory(current_path)
 
@@ -93,13 +108,18 @@ class FileSystemSourceDirector(Director):
         # extract filename from path
         file_name = os.path.basename(item_path)
 
-        for item in contents_data.values():
-            if item['src'] and item['src'] == file_name:
-                type = item['type']
+        for page_properties in contents_data.values():
+            if page_properties['src'] and page_properties['src'] == file_name:
+                type = page_properties['type']
+                # add the common page properties to each page
+                page_properties['common'] = self._common_data
+
+                # get the thumb path from item & construct its full path
+                # strip out src, type, thumb keys from item dict
                 if 'img' == type:
-                    self._builder.add_image_page(path=file_name, data=item, full_path=item_path)
+                    self._builder.add_image_page(path=file_name, data=page_properties, full_path=item_path)
                 elif 'txt' == type:
-                    self._builder.add_text_page(path=file_name, data=item, full_path=item_path)
+                    self._builder.add_text_page(path=file_name, data=page_properties, full_path=item_path)
                 elif 'video' == type:
-                    self._builder.add_video_page(path=file_name, data=item, full_path=item_path)
+                    self._builder.add_video_page(path=file_name, data=page_properties, full_path=item_path)
                 break

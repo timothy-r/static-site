@@ -1,12 +1,14 @@
 index:
     title: "Folder One"
-    thumb: "thumb.png"
+    thumb: "folder_thumb.png"
     sub_heading: "Folder one is the best folder"
+    contents: ""
 contents:
     show_reel:
       type: "img"
-      text: ""
-      title: "Show Reel"
-      src: "Showreel_2020_3.png"
+      text: "The digitalis project"
+      title: "Digitalis"
+      src: "digitalis01.jpg"
+      thumb: ""
       height: 576
       width: 1024

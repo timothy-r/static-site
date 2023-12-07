@@ -26,6 +26,8 @@ def main(
     print(index_page)
     for child in index_page.get_children():
         print(child)
+        for grand_child in child.get_children():
+            print(grand_child)
 
     """
         generate the static web pages

@@ -14,7 +14,7 @@ class TemplateBuilder(Builder):
         self.reset()
 
     def add_index_page(self, path: str, data: dict) -> None:
-        node = IndexPage(data['title'], path)
+        node = IndexPage(title=data['title'], path=path, properties=data)
         if self._current_node:
             self._current_node.add_child(node)
 
@@ -23,17 +23,17 @@ class TemplateBuilder(Builder):
         self._current_node = node
 
     def add_text_page(self, path: str, data: dict, full_path:str) -> None:
-        node = TextPage(data['title'], path=path)
+        node = TextPage(title=data['title'], path=path, properties=data)
         if self._current_node:
             self._current_node.add_child(node)
 
     def add_image_page(self, path: str, data: dict, full_path:str) -> None:
-        node = ImagePage(data['title'], path=path)
+        node = ImagePage(title=data['title'], path=path, properties=data)
         if self._current_node:
             self._current_node.add_child(node)
 
     def add_video_page(self, path: str, data: dict, full_path:str) -> None:
-        node = VideoPage(data['title'], path=path)
+        node = VideoPage(title=data['title'], path=path, properties=data)
         if self._current_node:
             self._current_node.add_child(node)
 

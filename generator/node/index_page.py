@@ -14,7 +14,7 @@ class IndexPage(Page):
         properties:dict = {},
         files={str:File}
     ) -> None:
-        super().__init__(title, path, properties=properties,files=files)
+        super().__init__(title, path, properties=properties, files=files)
         self._children = []
 
     def get_sub_heading(self) -> str:
